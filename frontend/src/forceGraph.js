@@ -25,7 +25,45 @@ export function drawGraph(svgEl, data, { width = 1000, height = 650 } = {}) {
     .data(nodes)
     .join("circle")
       .attr("r", 4)
-      .attr("fill", "#782F40");   // FSU red
+      .attr("fill", "#782F40"); 
+
+  // Tooltip
+  d3.select("body").selectAll(".graph-tooltip").remove();
+  const tooltip = d3.select("body").append("div")
+    .attr("class", "graph-tooltip")
+    .style("position", "absolute")
+    .style("background", "rgba(0,0,0,0.8)")
+    .style("color", "#fff")
+    .style("padding", "8px 12px")
+    .style("border-radius", "6px")
+    .style("font-size", "13px")
+    .style("max-width", "320px")
+    .style("text-align", "left")
+    .style("pointer-events", "none")
+    .style("opacity", 0);
+
+  const truncate = (s, n) => (s.length > n ? s.slice(0, n) + "…" : s);
+
+  node
+    .on("mouseover", function (event, d) {
+      d3.select(this).attr("r", 7).attr("fill", "#CEB888");
+      tooltip
+        .html(
+          `<strong>${truncate(d.title, 100)}</strong><br/>` +
+          `Year: ${d.year}<br/>Venue: ${truncate(d.venue, 60)}<br/>` +
+          `Authors: ${truncate(d.authors, 120)}`
+        )
+        .style("opacity", 1);
+    })
+    .on("mousemove", function (event) {
+      tooltip
+        .style("left", event.pageX + 14 + "px")
+        .style("top", event.pageY - 36 + "px");
+    })
+    .on("mouseout", function () {
+      d3.select(this).attr("r", 4).attr("fill", "#782F40");
+      tooltip.style("opacity", 0);
+    });
 
   // Force simulation
   const simulation = d3.forceSimulation(nodes)
