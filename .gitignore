@@ -1,0 +1,31 @@
+# Dependencies and Python virtual environments (at any depth)
+node_modules/
+.venv/
+venv/
+env/
+
+# Build output and caches
+dist/
+dist-ssr/
+build/
+coverage/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Local configuration, logs, and editor files
+.env
+.env.*
+!.env.example
+*.local
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Packaged copies of the repository
+*.zip
